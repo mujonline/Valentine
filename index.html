@@ -1,0 +1,2977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <title>Will You Be My Valentine? 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            overflow-x: hidden;
+        }
+
+        html, body {
+            width: 100%;
+            max-width: 100vw;
+            min-height: 100%;
+            min-height: 100dvh;
+            min-height: -webkit-fill-available;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+            overscroll-behavior-x: none;
+            background: linear-gradient(135deg, #ffe6e9 0%, #ffb3c1 50%, #ff8fa3 100%);
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Celebration page: more red background and extra hearts */
+        body.celebration-mode {
+            background: linear-gradient(135deg, #ff6b7a 0%, #ff4757 30%, #ff2056 50%, #ec003f 100%);
+        }
+        body.celebration-mode .hearts-bg {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .celebration-decoration-hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .celebration-decoration-hearts span {
+            position: absolute;
+            font-size: clamp(16px, 5vw, 24px);
+            opacity: 0.7;
+            animation: float-heart 4s ease-in-out infinite;
+        }
+        .celebration-decoration-hearts span:nth-child(1) { left: 5%; top: 10%; animation-delay: 0s; }
+        .celebration-decoration-hearts span:nth-child(2) { right: 8%; top: 15%; animation-delay: 0.5s; }
+        .celebration-decoration-hearts span:nth-child(3) { left: 5%; bottom: 25%; animation-delay: 1s; }
+        .celebration-decoration-hearts span:nth-child(4) { right: 5%; bottom: 20%; animation-delay: 1.5s; }
+        .celebration-decoration-hearts span:nth-child(5) { left: 15%; top: 25%; animation-delay: 0.3s; }
+        .celebration-decoration-hearts span:nth-child(6) { right: 12%; top: 45%; animation-delay: 0.8s; }
+        .celebration-decoration-hearts span:nth-child(7) { left: 8%; bottom: 45%; animation-delay: 1.2s; }
+        .celebration-decoration-hearts span:nth-child(8) { right: 12%; bottom: 35%; animation-delay: 0.5s; }
+        @keyframes float-heart {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-15px) scale(1.2); opacity: 0.9; }
+        }
+        .celebration-page {
+            background: transparent;
+        }
+
+        /* Floating hearts background */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100vh;
+            height: 100dvh;
+            max-height: -webkit-fill-available;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart-wrapper {
+            position: absolute;
+            will-change: transform;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float-up 6s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Celebration hearts - SEPARATE container, no parallax, hearts accumulate at top forever */
+        .celebration-hearts-bg {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            height: 100vh;
+            height: 100dvh;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 0;
+        }
+        .celebration-hearts-bg.hidden {
+            display: none;
+        }
+        .celebration-heart {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 24px;
+            opacity: 0.9;
+            animation: celebration-heart-rise 5s ease-out forwards;
+            will-change: transform;
+        }
+        @keyframes celebration-heart-rise {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.6);
+                opacity: 0;
+            }
+            8% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg) scale(1);
+                opacity: 0.9;
+            }
+        }
+
+        /* Page Container */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            min-height: 100dvh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+            z-index: 1;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .page.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        /* Bottom spacer removed to allow true vertical centering */
+
+        /* White modal container (like reference) */
+        .question-container {
+            text-align: center;
+            padding: 24px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(255, 107, 129, 0.3);
+            max-width: min(560px, calc(100vw - 32px));
+            width: 100%;
+            min-width: 0;
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+            margin-bottom: max(32px, 8vh);
+        }
+
+        /* Prevent any element from causing horizontal overflow */
+        img, video, .question-container, .modal-card, .celebration-container {
+            max-width: 100%;
+        }
+
+        /* Question Page Styles */
+        .media-container {
+            width: min(220px, 70vw);
+            height: min(220px, 70vw);
+            max-width: 100%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .media-container .media-item,
+        .media-container img,
+        .media-container video {
+            max-width: 100%;
+            max-height: min(220px, 70vw);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+            margin: auto;
+            border-radius: 16px;
+        }
+
+        .character-image {
+            width: min(220px, 70vw);
+            height: min(220px, 70vw);
+            max-width: 100%;
+            object-fit: contain;
+            margin-bottom: 20px;
+            animation: fadeInScale 0.5s ease forwards;
+            border-radius: 16px;
+        }
+
+        .character-image.hidden,
+        .media-container .media-item.hidden {
+            display: none !important;
+        }
+
+        .media-container.media-large {
+            width: min(360px, 85vw);
+            height: min(360px, 85vw);
+            max-width: 100%;
+            max-height: min(360px, 50vh);
+        }
+        .media-container.media-large .media-item,
+        .media-container.media-large img,
+        .media-container.media-large video {
+            max-height: min(360px, 50vh);
+        }
+
+        /* 9.gif: larger image without growing the modal (uses scale so layout stays same) */
+        .media-container.media-9gif {
+            overflow: visible;
+        }
+        .media-container.media-9gif img[src*="9.gif"] {
+            transform: scale(1.2);
+        }
+        @media (max-width: 480px) {
+            .media-container.media-9gif img[src*="9.gif"] {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .headline {
+            color: #ec003f;
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 24px;
+            animation: fadeUp 0.6s ease forwards;
+            animation-delay: 0.1s;
+            opacity: 0;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .headline-sub {
+            font-size: clamp(1.25rem, 5vw, 1.8rem);
+            font-weight: 600;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            padding: 24px 16px;
+            position: relative;
+            width: 100%;
+            animation: fadeUp 0.6s ease forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .buttons-group {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            width: 146px !important;
+            min-width: unset !important;
+            max-width: 146px !important;
+            height: 51px !important;
+            min-height: 48px !important;
+            border-radius: 24px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1.05rem, 3.85vw, 1.2rem);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            padding: 0 20px !important;
+        }
+
+        .btn-yes {
+            background-color: #ff2056;
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 32, 86, 0.4);
+        }
+
+        .btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        .btn-yes.shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Full-viewport clip boundary - No button CANNOT escape (overflow:hidden) */
+        .no-btn-boundary {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            box-sizing: border-box;
+        }
+        .no-btn-boundary .btn-no {
+            pointer-events: auto;
+        }
+
+        .no-btn-spacer {
+            visibility: hidden;
+            width: auto;
+            min-width: 60px !important;
+            padding: 0 32px !important;
+            height: 51px !important;
+            min-height: 48px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1.05rem, 3.85vw, 1.2rem);
+            white-space: nowrap;
+        }
+
+        .btn-no {
+            background-color: #d1d5dc;
+            color: #4a5565;
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: max-content;
+            min-width: 60px !important;
+            max-width: min(95vw, 363px) !important;
+            padding: 0 32px !important;
+            height: 51px !important;
+            min-height: 48px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            transition: left 0.3s ease-out, top 0.3s ease-out;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-no:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-no:active {
+            transform: scale(0.95);
+        }
+
+        /* Celebration Page Styles */
+        .celebration-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px 20px;
+            position: relative;
+            z-index: 1;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .celebration-image-wrap {
+            position: relative;
+            padding: 12px;
+            margin-bottom: 24px;
+            display: inline-block;
+            border: 4px solid transparent;
+            border-radius: 22px;
+            background: transparent;
+        }
+
+        .celebration-gif {
+            width: min(320px, 85vw);
+            height: min(320px, 85vw);
+            max-width: 100%;
+            max-height: min(360px, 55vh);
+            object-fit: cover;
+            animation: celebrationPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+            transform: scale(0.5);
+            border-radius: 14px;
+            box-shadow: 0 16px 48px rgba(236, 0, 63, 0.4);
+            border: none;
+            display: block;
+        }
+
+        /* Ribbon border frame - top */
+        .gift-ribbon-top {
+            position: absolute;
+            top: 0;
+            left: 10px;
+            right: 10px;
+            height: 12px;
+            background: linear-gradient(90deg, #ffd700 0%, #ffec80 30%, #ffd700 50%, #ffec80 70%, #e6b800 100%);
+            border-radius: 12px 12px 2px 2px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Ribbon border frame - bottom */
+        .gift-ribbon-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            right: 10px;
+            height: 12px;
+            background: linear-gradient(90deg, #e6b800 0%, #ffec80 30%, #ffd700 50%, #ffec80 70%, #ffd700 100%);
+            border-radius: 2px 2px 12px 12px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Ribbon border frame - left */
+        .gift-ribbon-left {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 12px;
+            background: linear-gradient(180deg, #ffd700 0%, #ffec80 30%, #ffd700 50%, #ffec80 70%, #e6b800 100%);
+            border-radius: 12px 2px 2px 12px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Ribbon border frame - right */
+        .gift-ribbon-right {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 12px;
+            background: linear-gradient(180deg, #e6b800 0%, #ffec80 30%, #ffd700 50%, #ffec80 70%, #ffd700 100%);
+            border-radius: 2px 12px 12px 2px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Corner ribbon knots */
+        .gift-ribbon-top::before,
+        .gift-ribbon-top::after,
+        .gift-ribbon-bottom::before,
+        .gift-ribbon-bottom::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #ffd700, #e6b800);
+            border-radius: 50%;
+            z-index: 3;
+        }
+        .gift-ribbon-top::before { left: -4px; top: -2px; }
+        .gift-ribbon-top::after { right: -4px; top: -2px; }
+        .gift-ribbon-bottom::before { left: -4px; bottom: -2px; }
+        .gift-ribbon-bottom::after { right: -4px; bottom: -2px; }
+
+        /* Gift bow on top center */
+        .gift-bow {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 6;
+            width: 76px;
+            height: 48px;
+            pointer-events: none;
+        }
+        .gift-bow::before,
+        .gift-bow::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            width: 34px;
+            height: 30px;
+            background: linear-gradient(135deg, #ffd700, #ffec80, #ffd700);
+            border-radius: 50% 50% 10% 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+        }
+        .gift-bow::before {
+            left: 2px;
+            transform: rotate(-25deg);
+        }
+        .gift-bow::after {
+            right: 2px;
+            transform: rotate(25deg) scaleX(-1);
+        }
+        /* Bow center knot */
+        .gift-bow-knot {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #e6b800, #ffd700);
+            border-radius: 50%;
+            z-index: 4;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+        /* Bow tails */
+        .gift-bow-tail-l,
+        .gift-bow-tail-r {
+            position: absolute;
+            bottom: -4px;
+            width: 13px;
+            height: 24px;
+            background: linear-gradient(180deg, #ffd700, #e6b800);
+            border-radius: 0 0 6px 6px;
+            z-index: 1;
+        }
+        .gift-bow-tail-l {
+            left: 16px;
+            transform: rotate(15deg);
+        }
+        .gift-bow-tail-r {
+            right: 16px;
+            transform: rotate(-15deg);
+        }
+
+        /* Subtle shimmer on the present */
+        .celebration-image-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.12) 55%, transparent 60%);
+            background-size: 250% 100%;
+            animation: present-shimmer 3s ease-in-out infinite;
+            z-index: 5;
+            pointer-events: none;
+        }
+        @keyframes present-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes celebrationPop {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .celebration-heading {
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(0,0,0,0.2), 0 1px 0 rgba(139,0,0,0.5);
+            font-size: clamp(1.5rem, 6vw, 2.25rem);
+            font-weight: 700;
+            animation: pulse 2s ease-in-out infinite, fadeUp 0.6s ease forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
+            margin-bottom: 8px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .celebration-subtext {
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 0 16px rgba(0,0,0,0.2), 0 1px 0 rgba(139,0,0,0.4);
+            font-size: clamp(1.125rem, 5vw, 1.5rem);
+            font-weight: 500;
+            animation: fadeUp 0.6s ease forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+            margin-bottom: 24px;
+        }
+
+        .btn-date-details {
+            background-color: #fff;
+            color: #c91a3a;
+            padding: 12px 24px;
+            border-radius: 26px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1rem, 4vw, 1.125rem);
+            font-weight: 600;
+            cursor: pointer;
+            border: 3px solid #ec003f;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.5);
+            animation: wiggle 0.8s ease-in-out infinite, fadeUp 0.6s ease forwards;
+            animation-delay: 0.6s, 0.6s;
+            opacity: 0;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-2deg); }
+            50% { transform: scale(1) rotate(2deg); }
+            75% { transform: scale(1.05) rotate(-1deg); }
+        }
+
+        .btn-date-details:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            opacity: 0;
+            pointer-events: none;
+            animation: confetti-fall 3s ease-in-out forwards;
+            z-index: 9999;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: linear-gradient(131.854deg, #fff1f2, #fce7f3);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: min(533px, calc(100vw - 24px));
+            width: 100%;
+            max-height: 90vh;
+            max-height: 90dvh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+            border: 4px solid rgba(251, 207, 232, 0.5);
+            transform: scale(0.5) perspective(1000px) rotateX(-90deg);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1) perspective(1000px) rotateX(0deg);
+        }
+
+        /* Decorative hearts background in modal */
+        .modal-card::before {
+            content: '♥ ♥ ♥ ♥ ♥';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ec003f;
+            opacity: 0.1;
+            font-size: clamp(1.25rem, 5vw, 2rem);
+            letter-spacing: clamp(8px, 4vw, 20px);
+            pointer-events: none;
+        }
+
+        /* Mobile only: minimize modal top padding so user sees content below (scroll hint) */
+        @media (max-width: 767px) {
+            .modal-overlay {
+                align-items: flex-start;
+                padding-top: max(8px, env(safe-area-inset-top));
+            }
+            .modal-card {
+                padding-top: 4px;
+                margin-top: 0;
+                max-height: 95vh;
+                max-height: 95dvh;
+            }
+            .modal-header {
+                padding-top: 0;
+                margin-bottom: 4px;
+            }
+            .modal-title {
+                margin-top: -4px;
+            }
+            .modal-card::before {
+                top: 2px;
+            }
+            .close-btn {
+                top: max(8px, env(safe-area-inset-top));
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: max(12px, env(safe-area-inset-top));
+            right: max(12px, env(safe-area-inset-right));
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            background-color: #fecdd3;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #e11d48;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+            z-index: 10;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .close-btn:hover {
+            background-color: #fda4af;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+
+        .modal-title {
+            color: #ec003f;
+            font-size: clamp(1.5rem, 6vw, 1.875rem);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .gradient-divider {
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #f43f5e, transparent);
+            border-radius: 2px;
+            margin: 0 auto;
+            width: 60%;
+        }
+
+        .date-media-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .date-photo {
+            flex: 1;
+            min-width: 0;
+            height: 180px;
+            min-height: 140px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 16px;
+            border: 2px solid #fecdd3;
+        }
+
+        .details-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .detail-card {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid #fecdd3;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #f43f5e, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .detail-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .detail-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        /* Location list with custom circle + line + square bullets */
+        .location-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+        }
+        .location-list::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 14px;
+            bottom: 14px;
+            width: 2px;
+            background: #d1d5db;
+            z-index: 0;
+        }
+        .location-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .location-bullet-col {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 12px;
+        }
+        .location-bullet-circle {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #9ca3af;
+            flex-shrink: 0;
+        }
+        .location-bullet-square {
+            width: 8px;
+            height: 8px;
+            background: #374151;
+            flex-shrink: 0;
+        }
+        .location-value {
+            flex: 1;
+            min-width: 0;
+            color: #374151;
+            font-size: 1.125rem;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .detail-value {
+            color: #374151;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .detail-secondary {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .modal-footer {
+            text-align: center;
+            color: #f43f5e;
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+            font-weight: 500;
+        }
+
+        /* Extra extra small (280px - old/small devices) */
+        @media (max-width: 280px) {
+            .page {
+                padding: 8px 6px;
+            }
+            .question-container {
+                padding: 8px 6px;
+                margin-bottom: 12px;
+                border-radius: 16px;
+            }
+            .media-container {
+                width: min(120px, 85vw);
+                height: min(120px, 85vw);
+                margin-bottom: 8px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(120px, 85vw);
+            }
+            .character-image {
+                width: min(120px, 85vw);
+                height: min(120px, 85vw);
+            }
+            .headline {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+            .headline-sub {
+                font-size: 0.9rem;
+            }
+            .buttons-container {
+                padding: 8px 6px;
+                min-height: 60px;
+            }
+            .btn {
+                min-width: 90px;
+                width: min(110px, 90vw);
+                height: 40px;
+                min-height: 40px;
+                font-size: 0.85rem;
+            }
+            .no-btn-spacer,
+            .btn-no {
+                height: 40px;
+                min-height: 40px;
+            }
+            .celebration-gif {
+                width: min(180px, 90vw);
+                height: min(180px, 90vw);
+                max-height: min(200px, 40vh);
+            }
+            .celebration-heading {
+                font-size: 1.1rem;
+            }
+            .celebration-subtext {
+                font-size: 0.9rem;
+            }
+            .btn-date-details {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .modal-card {
+                padding: 10px;
+                padding-top: 6px;
+                border-radius: 12px;
+            }
+            .modal-header {
+                padding-top: 0;
+            }
+            .modal-title {
+                font-size: 1.1rem;
+            }
+            .date-photo {
+                height: 100px;
+                min-height: 80px;
+            }
+            .detail-card {
+                padding: 8px;
+            }
+            .detail-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+            .detail-value,
+            .location-value {
+                font-size: 0.8rem;
+            }
+            .close-btn {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+        }
+
+        /* Extra small screens - prevent overflow */
+        @media (max-width: 320px) {
+            .page {
+                padding: 12px 10px;
+            }
+            .question-container {
+                padding: 10px 8px;
+                margin-bottom: 16px;
+            }
+            .headline {
+                font-size: 1.2rem;
+            }
+            .headline-sub {
+                font-size: 1rem;
+            }
+            .modal-card {
+                padding: 12px;
+                padding-top: 6px;
+            }
+            .modal-header {
+                padding-top: 0;
+            }
+            .date-media-row {
+                flex-direction: column;
+            }
+            .date-photo {
+                width: 100%;
+                min-width: 100%;
+                height: 140px;
+                min-height: 120px;
+            }
+            .location-value {
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Very small mobile (e.g. iPhone SE 1st gen 320px) */
+        @media (max-width: 340px) {
+            .question-container {
+                padding: 12px 10px;
+                border-radius: 18px;
+            }
+            .media-container {
+                width: min(160px, 75vw);
+                height: min(160px, 75vw);
+                margin-bottom: 12px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(160px, 75vw);
+            }
+            .character-image {
+                width: min(160px, 75vw);
+                height: min(160px, 75vw);
+            }
+            .headline {
+                font-size: clamp(1.25rem, 6vw, 1.5rem);
+                margin-bottom: 12px;
+            }
+            .headline-sub {
+                font-size: clamp(1.1rem, 5vw, 1.25rem);
+            }
+            .buttons-container {
+                padding: 12px 10px;
+                min-height: 70px;
+            }
+            .btn {
+                min-width: 100px;
+                width: min(140px, 85vw);
+                height: 44px;
+                min-height: 44px;
+                font-size: 0.95rem;
+            }
+            .no-btn-spacer {
+                height: 44px;
+                min-height: 44px;
+            }
+            .btn-no {
+                height: 44px;
+                min-height: 44px;
+            }
+            .celebration-gif {
+                width: min(240px, 85vw);
+                height: min(240px, 85vw);
+                max-height: min(260px, 45vh);
+            }
+            .celebration-heading {
+                font-size: clamp(1.25rem, 6vw, 1.75rem);
+            }
+            .celebration-subtext {
+                font-size: 1rem;
+            }
+            .modal-card {
+                padding: 12px;
+                padding-top: 6px;
+                border-radius: 14px;
+            }
+            .modal-header {
+                padding-top: 0;
+                margin-bottom: 12px;
+            }
+            .modal-title {
+                font-size: 1.25rem;
+            }
+            .date-photo {
+                height: 120px;
+                margin-bottom: 12px;
+            }
+            .details-grid {
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            .detail-card {
+                padding: 10px;
+            }
+            .detail-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .detail-value {
+                font-size: 0.9rem;
+            }
+            .close-btn {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            .date-media-row {
+                flex-direction: column;
+            }
+            .date-photo {
+                width: 100%;
+                min-width: 100%;
+            }
+            .location-value {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small mobile (e.g. iPhone SE 375px) */
+        @media (max-width: 380px) {
+            .question-container {
+                padding: 16px 12px;
+                border-radius: 20px;
+            }
+            .media-container {
+                width: min(180px, 65vw);
+                height: min(180px, 65vw);
+                margin-bottom: 16px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(180px, 65vw);
+            }
+            .character-image {
+                width: min(180px, 65vw);
+                height: min(180px, 65vw);
+            }
+            .headline {
+                margin-bottom: 16px;
+            }
+            .buttons-container {
+                padding: 16px 12px;
+                min-height: 80px;
+            }
+            .btn {
+                min-width: 120px;
+                height: 48px;
+            }
+            .no-btn-spacer {
+                height: 48px;
+                min-height: 44px;
+            }
+            .btn-no {
+                height: 48px;
+                min-height: 44px;
+            }
+            .celebration-gif {
+                width: min(260px, 75vw);
+                height: min(260px, 75vw);
+                max-height: min(280px, 50vh);
+            }
+            .celebration-subtext {
+                margin-bottom: 20px;
+            }
+            .modal-card {
+                padding: 16px;
+                padding-top: 8px;
+                border-radius: 16px;
+            }
+            .modal-header {
+                padding-top: 0;
+                margin-bottom: 16px;
+            }
+            .date-photo {
+                height: 160px;
+                margin-bottom: 16px;
+            }
+            .details-grid {
+                gap: 10px;
+                margin-bottom: 16px;
+            }
+            .detail-card {
+                padding: 12px;
+            }
+            .detail-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+            .detail-value {
+                font-size: 1rem;
+            }
+            .date-media-row {
+                flex-direction: column;
+            }
+            .date-photo {
+                width: 100%;
+                min-width: 100%;
+                height: 160px;
+            }
+            .location-value {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Common Android phones (360px) */
+        @media (min-width: 341px) and (max-width: 380px) {
+            .question-container {
+                padding: 18px 14px;
+            }
+            .media-container {
+                width: min(200px, 60vw);
+                height: min(200px, 60vw);
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(200px, 60vw);
+            }
+            .character-image {
+                width: min(200px, 60vw);
+                height: min(200px, 60vw);
+            }
+        }
+
+        /* Medium mobile (iPhone 14/15 Pro Max 430px, iPhone 14 Plus 428px) */
+        @media (min-width: 381px) and (max-width: 480px) {
+            .question-container {
+                padding: 20px 18px;
+            }
+            .media-container {
+                width: min(240px, 55vw);
+                height: min(240px, 55vw);
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(240px, 55vw);
+            }
+            .media-container.media-large {
+                width: min(300px, 75vw);
+                height: min(300px, 45vh);
+            }
+            .media-container.media-large .media-item,
+            .media-container.media-large img,
+            .media-container.media-large video {
+                max-height: min(300px, 45vh);
+            }
+            .character-image {
+                width: min(240px, 55vw);
+                height: min(240px, 55vw);
+            }
+            .headline {
+                font-size: clamp(1.6rem, 5vw, 2.2rem);
+            }
+            .headline-sub {
+                font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+            }
+            .btn {
+                width: min(180px, 45vw);
+                height: 52px;
+            }
+            .celebration-gif {
+                width: min(280px, 70vw);
+                height: min(280px, 70vw);
+                max-height: min(300px, 50vh);
+            }
+            .date-media-row {
+                flex-direction: column;
+            }
+            .date-photo {
+                width: 100%;
+                min-width: 100%;
+                height: 180px;
+            }
+        }
+
+        /* Large phones / phablets (481px - 640px) */
+        @media (min-width: 481px) and (max-width: 639px) {
+            .question-container {
+                padding: 28px 24px;
+            }
+            .media-container {
+                width: min(260px, 50vw);
+                height: min(260px, 50vw);
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(260px, 50vw);
+            }
+            .media-container.media-large {
+                width: min(320px, 65vw);
+                height: min(320px, 45vh);
+            }
+            .media-container.media-large .media-item,
+            .media-container.media-large img,
+            .media-container.media-large video {
+                max-height: min(320px, 45vh);
+            }
+            .character-image {
+                width: min(260px, 50vw);
+                height: min(260px, 50vw);
+            }
+            .headline {
+                font-size: clamp(1.75rem, 4.5vw, 2.25rem);
+            }
+            .headline-sub {
+                font-size: clamp(1.4rem, 4vw, 1.65rem);
+            }
+            .buttons-group {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .btn {
+                width: min(160px, 35vw);
+                height: 54px;
+            }
+            .celebration-gif {
+                width: min(300px, 60vw);
+                height: min(300px, 60vw);
+                max-height: min(340px, 52vh);
+            }
+            .celebration-heading {
+                font-size: clamp(1.75rem, 5vw, 2.25rem);
+            }
+            .celebration-subtext {
+                font-size: clamp(1.2rem, 4vw, 1.5rem);
+            }
+            .date-photo {
+                height: 190px;
+            }
+        }
+
+        /* Very short viewport (height) - e.g. keyboard open, split screen */
+        @media (max-height: 400px) {
+            .page {
+                padding: max(8px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)) 12px;
+                justify-content: flex-start;
+            }
+            .question-container {
+                padding: 12px 16px;
+                margin-bottom: 12px;
+            }
+            .media-container {
+                width: min(100px, 20vw);
+                height: min(100px, 20vh);
+                margin-bottom: 8px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(100px, 20vh);
+            }
+            .media-container.media-large {
+                width: min(140px, 28vw);
+                height: min(140px, 28vh);
+            }
+            .media-container.media-large .media-item,
+            .media-container.media-large img,
+            .media-container.media-large video {
+                max-height: min(140px, 28vh);
+            }
+            .character-image {
+                width: min(100px, 20vw);
+                height: min(100px, 20vh);
+            }
+            .headline {
+                font-size: clamp(1rem, 3.5vw, 1.25rem);
+                margin-bottom: 8px;
+            }
+            .headline-sub {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+            }
+            .buttons-container {
+                padding: 8px;
+                min-height: 50px;
+            }
+            .btn {
+                height: 40px;
+                min-height: 38px;
+            }
+            .no-btn-spacer,
+            .btn-no {
+                height: 40px;
+                min-height: 38px;
+            }
+            .celebration-gif {
+                width: min(120px, 25vw);
+                height: min(120px, 25vh);
+                max-height: min(140px, 25vh);
+            }
+            .celebration-heading {
+                font-size: 1.1rem;
+            }
+            .celebration-subtext {
+                font-size: 0.9rem;
+            }
+            .modal-card {
+                max-height: 90vh;
+                max-height: 90dvh;
+            }
+        }
+
+        /* Mobile landscape - compact layout */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .page {
+                padding: max(8px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)) 16px;
+                justify-content: flex-start;
+            }
+            .question-container {
+                padding: 16px 20px;
+                margin-bottom: 16px;
+            }
+            .media-container {
+                width: min(140px, 25vh);
+                height: min(140px, 25vh);
+                margin-bottom: 12px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: min(140px, 25vh);
+            }
+            .media-container.media-large {
+                width: min(200px, 35vh);
+                height: min(200px, 35vh);
+            }
+            .media-container.media-large .media-item,
+            .media-container.media-large img,
+            .media-container.media-large video {
+                max-height: min(200px, 35vh);
+            }
+            .character-image {
+                width: min(140px, 25vh);
+                height: min(140px, 25vh);
+            }
+            .headline {
+                font-size: clamp(1.25rem, 4vw, 1.5rem);
+                margin-bottom: 12px;
+            }
+            .headline-sub {
+                font-size: clamp(1.1rem, 3.5vw, 1.25rem);
+            }
+            .buttons-container {
+                padding: 12px 16px;
+                min-height: 60px;
+            }
+            .btn {
+                height: 46px;
+                min-height: 44px;
+            }
+            .no-btn-spacer {
+                height: 46px;
+                min-height: 44px;
+            }
+            .btn-no {
+                height: 46px;
+                min-height: 44px;
+            }
+            .celebration-container {
+                padding: 12px;
+            }
+            .celebration-gif {
+                width: min(220px, 45vw);
+                height: min(220px, 45vw);
+                max-height: min(240px, 40vh);
+                margin-bottom: 12px;
+            }
+            .celebration-heading {
+                font-size: clamp(1.25rem, 5vw, 1.75rem);
+                margin-bottom: 8px;
+            }
+            .celebration-subtext {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+            .modal-overlay {
+                padding: max(8px, env(safe-area-inset-top)) 12px max(8px, env(safe-area-inset-bottom)) 12px;
+                align-items: flex-start;
+            }
+            .modal-card {
+                max-height: 85vh;
+                max-height: 85dvh;
+                padding: 16px;
+                padding-top: 6px;
+            }
+            .modal-header {
+                padding-top: 0;
+            }
+            .date-media-row {
+                flex-direction: row;
+                gap: 8px;
+            }
+            .date-photo {
+                flex: 1;
+                height: 100px;
+                min-height: 80px;
+                margin-bottom: 12px;
+            }
+            .location-value {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small tablet (640px - 768px) */
+        @media (min-width: 640px) and (max-width: 767px) {
+            .question-container {
+                padding: 28px 32px;
+            }
+            .media-container {
+                width: 240px;
+                height: 240px;
+            }
+            .media-container.media-large {
+                width: 340px;
+                height: 340px;
+                max-height: 50vh;
+            }
+            .buttons-group {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .btn {
+                width: 160px;
+                height: 56px;
+            }
+            .date-media-row {
+                flex-direction: row;
+            }
+            .date-photo {
+                flex: 1;
+                height: 160px;
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 640px) {
+            .question-container {
+                padding: 32px 40px;
+                border-radius: 30px;
+            }
+            .media-container {
+                width: 280px;
+                height: 280px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: 280px;
+            }
+            .media-container.media-large {
+                width: 420px;
+                height: 420px;
+                max-width: 100%;
+                max-height: 55vh;
+            }
+            .media-container.media-large .media-item,
+            .media-container.media-large img,
+            .media-container.media-large video {
+                max-height: min(420px, 55vh);
+            }
+            .media-container.media-9gif img[src*="9.gif"] {
+                transform: scale(1.4);
+            }
+            .character-image {
+                width: 280px;
+                height: 280px;
+            }
+            .celebration-gif {
+                width: 380px;
+                height: 380px;
+                max-height: min(420px, 55vh);
+            }
+
+            .headline {
+                font-size: 2.5rem;
+            }
+
+            .headline-sub {
+                font-size: 1.8rem;
+            }
+
+            .buttons-container {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                min-height: 140px;
+                padding: 50px;
+            }
+            .buttons-group {
+                flex-direction: row;
+                gap: 24px;
+                align-items: center;
+                justify-content: center;
+            }
+            .btn {
+                width: 170px;
+                height: 60px;
+                min-width: 170px;
+            }
+            .no-btn-spacer {
+                height: 60px;
+                min-width: 80px;
+                padding: 0 32px;
+            }
+            .btn-no {
+                height: 60px;
+                min-width: 80px;
+                padding: 0 32px;
+                max-width: min(95vw, 420px);
+            }
+
+            .celebration-heading {
+                font-size: 2.75rem;
+            }
+
+            .celebration-subtext {
+                font-size: 1.875rem;
+            }
+
+            .btn-date-details {
+                padding: 14px 40px;
+                font-size: 1.25rem;
+            }
+
+            .modal-card {
+                padding: 32px;
+            }
+
+            .close-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 2.25rem;
+            }
+
+            .date-photo {
+                height: 206px;
+            }
+
+            .details-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .detail-card.full-width {
+                grid-column: span 2;
+            }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            .media-container {
+                width: 320px;
+                height: 320px;
+            }
+            .media-container .media-item,
+            .media-container img,
+            .media-container video {
+                max-height: 320px;
+            }
+            .media-container.media-large {
+                width: 480px;
+                height: 480px;
+                max-width: 100%;
+                max-height: 50vh;
+            }
+            .media-container.media-large .media-item,
+            .media-container.media-large img,
+            .media-container.media-large video {
+                max-height: min(480px, 50vh);
+            }
+            .media-container.media-9gif img[src*="9.gif"] {
+                transform: scale(1.45);
+            }
+            .character-image {
+                width: 320px;
+                height: 320px;
+            }
+            .celebration-gif {
+                width: 420px;
+                height: 420px;
+                max-height: min(480px, 55vh);
+            }
+
+            .headline {
+                font-size: 2.5rem;
+            }
+
+            .headline-sub {
+                font-size: 1.8rem;
+            }
+
+            .celebration-heading {
+                font-size: 3.25rem;
+            }
+
+            .celebration-subtext {
+                font-size: 1.875rem;
+            }
+
+            .modal-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Very short viewport - ensure modal scales */
+        @media (max-height: 500px) {
+            .modal-card {
+                max-height: 85vh;
+                max-height: 85dvh;
+            }
+        }
+
+        /* Touch-friendly: ensure minimum tap targets on all devices */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+            }
+            .btn-date-details {
+                min-height: 44px;
+            }
+            .close-btn {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+
+        /* Fold/narrow devices - ensure content fits */
+        @media (max-width: 360px) and (max-height: 640px) {
+            .question-container {
+                max-width: calc(100vw - 20px);
+            }
+        }
+
+        /* Ultra-wide / large desktop */
+        @media (min-width: 1440px) {
+            .question-container {
+                max-width: 560px;
+            }
+            .modal-card {
+                max-width: 560px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .modal-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-card::-webkit-scrollbar-track {
+            background: rgba(251, 207, 232, 0.3);
+            border-radius: 3px;
+        }
+
+        .modal-card::-webkit-scrollbar-thumb {
+            background: #f43f5e;
+            border-radius: 3px;
+        }
+
+        /* ===== Gift-Opening Romantic Quote Overlay ===== */
+        .gift-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: radial-gradient(ellipse at center, rgba(80,0,20,0.92) 0%, rgba(30,0,10,0.97) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .gift-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Gift box container */
+        .gift-box-scene {
+            position: relative;
+            width: min(260px, 70vw);
+            height: min(260px, 70vw);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 800px;
+        }
+
+        /* Gift box bottom */
+        .gift-box-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(135deg, #e8345a 0%, #c91a3a 100%);
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        .gift-box-bottom::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 22%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ffd700, #ffec80);
+            border-radius: 2px;
+        }
+
+        /* Gift box lid */
+        .gift-box-lid {
+            position: absolute;
+            top: 24%;
+            left: -5%;
+            width: 110%;
+            height: 22%;
+            background: linear-gradient(135deg, #f43f5e 0%, #d6253f 100%);
+            border-radius: 6px 6px 2px 2px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            transform-origin: bottom center;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .gift-box-lid::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 20%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ffd700, #ffec80);
+            border-radius: 2px;
+        }
+
+        /* Ribbon bow */
+        .gift-ribbon-bow {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 40px;
+            z-index: 2;
+            transition: transform 0.6s ease, opacity 0.4s ease;
+        }
+        .gift-ribbon-bow::before,
+        .gift-ribbon-bow::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            width: 28px;
+            height: 24px;
+            background: linear-gradient(135deg, #ffd700, #ffec80);
+            border-radius: 50% 50% 10% 50%;
+        }
+        .gift-ribbon-bow::before {
+            left: 0;
+            transform: rotate(-20deg);
+        }
+        .gift-ribbon-bow::after {
+            right: 0;
+            transform: rotate(20deg) scaleX(-1);
+        }
+
+        /* Gift opened states */
+        .gift-box-scene.opened .gift-box-lid {
+            transform: rotateX(-120deg) translateY(-30px);
+        }
+        .gift-box-scene.opened .gift-ribbon-bow {
+            transform: translateX(-50%) scale(0.4) translateY(-40px);
+            opacity: 0;
+        }
+
+        /* Sparkle burst */
+        .gift-sparkles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .gift-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.6);
+        }
+        .gift-box-scene.opened .gift-sparkle {
+            animation: sparkle-burst 1s ease-out forwards;
+        }
+        @keyframes sparkle-burst {
+            0% { transform: translate(0, 0) scale(0); opacity: 1; }
+            60% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Romantic quote card */
+        .romantic-quote-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: min(380px, 85vw);
+            background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,200,210,0.10) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1.5px solid rgba(255,180,200,0.25);
+            border-radius: 24px;
+            padding: 36px 28px;
+            text-align: center;
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+            transition-delay: 0.8s;
+        }
+        .gift-overlay.active .romantic-quote-card.revealed {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .romantic-quote-card .quote-hearts {
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            margin-bottom: 12px;
+            letter-spacing: 6px;
+            opacity: 0.8;
+        }
+
+        .romantic-quote-card .quote-text {
+            color: #fff;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+            font-weight: 500;
+            line-height: 1.7;
+            font-style: italic;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            min-height: 3em;
+        }
+
+        .romantic-quote-card .quote-author {
+            margin-top: 18px;
+            color: rgba(255,200,210,0.8);
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            font-weight: 400;
+        }
+
+        .romantic-quote-card .quote-tap-hint {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+        @keyframes pulse-hint {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Floating mini hearts inside the quote */
+        .quote-mini-hearts {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            border-radius: 24px;
+        }
+        .quote-mini-heart {
+            position: absolute;
+            font-size: 14px;
+            opacity: 0;
+            animation: mini-heart-float 3s ease-in-out infinite;
+        }
+        @keyframes mini-heart-float {
+            0% { transform: translateY(100%) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-100%) scale(1); opacity: 0; }
+        }
+
+        /* Typewriter cursor */
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: rgba(255,255,255,0.7);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink-cursor 0.8s step-end infinite;
+        }
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Celebration image clickable hint */
+        .celebration-gif {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .celebration-gif:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 60px rgba(236, 0, 63, 0.5);
+        }
+        .celebration-gif:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background (question page only) -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <!-- Celebration hearts - separate container, no parallax, accumulate at top forever -->
+    <div class="celebration-hearts-bg hidden" id="celebrationHeartsBg"></div>
+
+    <!-- Page 1: Question Screen -->
+    <div class="page" id="questionPage">
+        <div class="question-container">
+            <div class="media-container" id="mediaContainer">
+                <img 
+                    src="media/willyou.jpg" 
+                    alt="Dudu Bubu" 
+                    class="character-image"
+                    id="defaultImage"
+                >
+                <img class="media-item hidden" id="mediaImage" alt="">
+                <video class="media-item hidden" id="mediaVideo2" playsinline preload="auto"></video>
+                <video class="media-item hidden" id="mediaVideo3" playsinline preload="auto"></video>
+                <video class="media-item hidden" id="mediaVideo5" playsinline preload="auto"></video>
+                <video class="media-item hidden" id="mediaVideo12" playsinline preload="auto"></video>
+            </div>
+            <h1 class="headline">Dear Mahek...<br><span class="headline-sub">Will you be my Valentine?</span></h1>
+            <div class="buttons-container" id="buttonsContainer">
+                <div class="buttons-group">
+                    <button class="btn btn-yes" id="yesBtn">Yes! ❤️</button>
+                    <span class="no-btn-spacer" id="noBtnSpacer">No</span>
+                </div>
+            </div>
+            <div class="no-btn-boundary" id="noBtnBoundary">
+                <button class="btn btn-no" id="noBtn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Celebration Screen -->
+    <div class="page hidden celebration-page" id="celebrationPage">
+        <div class="celebration-decoration-hearts">
+            <span>❤️</span><span>💕</span><span>💗</span><span>💖</span><span>💝</span><span>💘</span><span>💕</span><span>❤️</span>
+        </div>
+        <div class="celebration-container">
+            <div class="celebration-image-wrap">
+                <img 
+                    src="media/14.PNG" 
+                    alt="Celebration" 
+                    class="celebration-gif"
+                >
+                <div class="gift-ribbon-top"></div>
+                <div class="gift-ribbon-bottom"></div>
+                <div class="gift-ribbon-left"></div>
+                <div class="gift-ribbon-right"></div>
+                <div class="gift-bow">
+                    <div class="gift-bow-knot"></div>
+                    <div class="gift-bow-tail-l"></div>
+                    <div class="gift-bow-tail-r"></div>
+                </div>
+            </div>
+            <h1 class="celebration-heading">Yay! 🎉💖</h1>
+            <p class="celebration-subtext">Happy Valentine's Day!</p>
+            <button class="btn-date-details" id="dateDetailsBtn">See Our Date Details 💌</button>
+        </div>
+    </div>
+
+    <!-- Gift-Opening Romantic Quote Overlay -->
+    <div class="gift-overlay" id="giftOverlay">
+        <div class="gift-box-scene" id="giftBoxScene">
+            <div class="gift-box-bottom"></div>
+            <div class="gift-box-lid"></div>
+            <div class="gift-ribbon-bow"></div>
+            <div class="gift-sparkles" id="giftSparkles"></div>
+        </div>
+        <div class="romantic-quote-card" id="romanticQuoteCard">
+            <div class="quote-mini-hearts" id="quoteMiniHearts"></div>
+            <div class="quote-hearts">💕 💖 💕</div>
+            <div class="quote-text" id="quoteText"></div>
+            <div class="quote-author">— Yash ❤️</div>
+            <div class="quote-tap-hint">tap anywhere to close</div>
+        </div>
+    </div>
+
+    <!-- Page 3: Date Details Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-card">
+            <button class="close-btn" id="closeModal">×</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Our Special Date 💌</h2>
+                <div class="gradient-divider"></div>
+            </div>
+            <div class="date-media-row">
+                <video 
+                    src="media/16.mp4" 
+                    class="date-photo"
+                    muted
+                    autoplay
+                    loop
+                    playsinline
+                ></video>
+                <img 
+                    src="media/17.jpg" 
+                    alt="Date" 
+                    class="date-photo"
+                >
+            </div>
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-content">
+                        <div class="detail-label">When</div>
+                        <div class="detail-value">Feb 14, 2026</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">⏰</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Time</div>
+                        <div class="detail-value">1:00 PM</div>
+                    </div>
+                </div>
+                <div class="detail-card full-width">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Where</div>
+                        <div class="location-list">
+                            <div class="location-row">
+                                <div class="location-bullet-col">
+                                    <span class="location-bullet-circle"></span>
+                                </div>
+                                <div class="location-value">Rcube Monad Mall, Noida</div>
+                            </div>
+                            <div class="location-row">
+                                <div class="location-bullet-col">
+                                    <span class="location-bullet-square"></span>
+                                </div>
+                                <div class="location-value">Plum Coffee & Cocktails, Connaught Place</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                Can't wait to see you there! 💖
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let noClickCount = 0;
+        let currentPage = 'question';
+        const funnyMessages = [
+            "Nice try Diddy!",
+            "Nope!",
+            "Really?", 
+            "Catch me if u can😝",
+            "Think again!",
+            "Please don't do this...", 
+            "Keep trying!",
+            "Give me a chance!", 
+            "Oops!",
+            "Hehe!",
+            "No way!",
+            "i'm gonna cry😭",
+            "Are you sure?", 
+            "Think again!", 
+            "I'll be so sad...",  
+            "Pretty please?", 
+            "Stop clicking No!",
+            "Just say Yes!"
+        ];
+
+        // DOM Elements
+        const heartsBg = document.getElementById('heartsBg');
+        const questionPage = document.getElementById('questionPage');
+        const celebrationPage = document.getElementById('celebrationPage');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const dateDetailsBtn = document.getElementById('dateDetailsBtn');
+        const closeModal = document.getElementById('closeModal');
+        const defaultImage = document.getElementById('defaultImage');
+        const mediaImage = document.getElementById('mediaImage');
+        const mediaVideo2 = document.getElementById('mediaVideo2');
+        const mediaVideo3 = document.getElementById('mediaVideo3');
+        const mediaVideo5 = document.getElementById('mediaVideo5');
+        const mediaVideo12 = document.getElementById('mediaVideo12');
+
+        // Media items: 1.webp, 6, 7, 9, 10, 11 (play mp3) | 2, 3, 5, 12 (mp4 - no mp3)
+        const mediaItems = [
+            { type: 'image', src: 'media/1.webp' },
+            { type: 'video', src: 'media/2.mp4', el: mediaVideo2 },
+            { type: 'image', src: 'media/6.gif' },
+            { type: 'video', src: 'media/3.mp4', el: mediaVideo3 },
+            { type: 'image', src: 'media/7.gif' },
+            { type: 'video', src: 'media/5.mp4', el: mediaVideo5 },
+            { type: 'image', src: 'media/9.gif' },
+            { type: 'image', src: 'media/10.gif' },
+            { type: 'image', src: 'media/11.gif', audio: 'media/4.mp3' },
+            { type: 'video', src: 'media/12.mp4', el: mediaVideo12 }
+        ];
+        let mediaIndex = -1;
+        const mp3Audio = new Audio('media/4.mp3');
+        mp3Audio.preload = 'auto';
+        mp3Audio.load();
+        const celebrationAudio = new Audio('media/13.mp3');
+        celebrationAudio.preload = 'auto';
+
+        // Preload all media for immediate playback - videos preloaded in DOM
+        function preloadMedia() {
+            mediaVideo2.src = 'media/2.mp4';
+            mediaVideo3.src = 'media/3.mp4';
+            mediaVideo5.src = 'media/5.mp4';
+            mediaVideo12.src = 'media/12.mp4';
+            mediaVideo2.load();
+            mediaVideo3.load();
+            mediaVideo5.load();
+            mediaVideo12.load();
+            mediaItems.forEach((item) => {
+                if (item.type === 'image') {
+                    const img = new Image();
+                    img.src = item.src;
+                }
+            });
+        }
+
+        // Cursor position for parallax hearts
+        let cursorX = 0;
+        let cursorY = 0;
+        let targetCursorX = 0;
+        let targetCursorY = 0;
+        const heartWrappers = [];
+
+        function initCursorParallax() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            targetCursorX = centerX;
+            targetCursorY = centerY;
+            cursorX = centerX;
+            cursorY = centerY;
+
+            function onMove(e) {
+                const x = e.clientX ?? (e.touches && e.touches[0]?.clientX);
+                const y = e.clientY ?? (e.touches && e.touches[0]?.clientY);
+                if (x != null && y != null) {
+                    targetCursorX = x;
+                    targetCursorY = y;
+                }
+            }
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('touchmove', onMove, { passive: true });
+
+            function updateHearts() {
+                cursorX += (targetCursorX - cursorX) * 0.08;
+                cursorY += (targetCursorY - cursorY) * 0.08;
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const offsetX = (cursorX - centerX) * 0.8;
+                const offsetY = (cursorY - centerY) * 0.8;
+
+                heartWrappers.forEach(({ el, factor }) => {
+                    const dx = offsetX * factor;
+                    const dy = offsetY * factor;
+                    el.style.transform = `translate(${dx}px, ${dy}px)`;
+                });
+                requestAnimationFrame(updateHearts);
+            }
+            requestAnimationFrame(updateHearts);
+        }
+
+        // Create floating hearts for QUESTION page only (with parallax)
+        function createHearts(count = 50) {
+            const hearts = ['❤️', '💕', '💗', '💖', '💝', '💘', '♥', '💓', '💞', '💜'];
+            const sizes = [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 45];
+
+            for (let i = 0; i < count; i++) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'heart-wrapper';
+                const factor = 0.04 + Math.random() * 0.16;
+                wrapper.style.left = Math.random() * 100 + '%';
+
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = '0';
+                heart.style.animationDelay = Math.random() * 6 + 's';
+                heart.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)] + 'px';
+
+                wrapper.appendChild(heart);
+                heartsBg.appendChild(wrapper);
+                heartWrappers.push({ el: wrapper, factor });
+            }
+        }
+
+        // CELEBRATION HEARTS - Completely separate logic, hearts accumulate at top forever
+        const celebrationHeartsBg = document.getElementById('celebrationHeartsBg');
+        const CELEBRATION_HEARTS = ['❤️', '💕', '💗', '💖', '💝', '💘', '♥', '💓', '💞', '💜'];
+        const CELEBRATION_SIZES = [18, 20, 22, 24, 26, 28, 30, 32, 36, 40];
+        let celebrationHeartInterval = null;
+
+        function spawnCelebrationHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'celebration-heart';
+            heart.textContent = CELEBRATION_HEARTS[Math.floor(Math.random() * CELEBRATION_HEARTS.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = CELEBRATION_SIZES[Math.floor(Math.random() * CELEBRATION_SIZES.length)] + 'px';
+            heart.style.animationDuration = (4 + Math.random() * 3) + 's';
+            celebrationHeartsBg.appendChild(heart);
+        }
+
+        function startCelebrationHearts() {
+            celebrationHeartsBg.classList.remove('hidden');
+            heartWrappers.length = 0;
+            heartsBg.innerHTML = '';
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => spawnCelebrationHeart(), i * 80);
+            }
+            celebrationHeartInterval = setInterval(spawnCelebrationHeart, 400);
+        }
+
+        // No button logic: position:absolute inside a viewport-sized boundary with overflow:hidden.
+        // Button uses left/top pixels - mathematically impossible to escape.
+        const noBtnBoundary = document.getElementById('noBtnBoundary');
+        const noBtnSpacer = document.getElementById('noBtnSpacer');
+
+        function getPad() {
+            const w = window.innerWidth;
+            return w <= 320 ? 8 : w <= 380 ? 12 : 16;
+        }
+
+        function getSafeBounds() {
+            const PAD = getPad();
+            const vw = noBtnBoundary.clientWidth || window.innerWidth;
+            const vh = noBtnBoundary.clientHeight || window.innerHeight;
+            const rect = noBtn.getBoundingClientRect();
+            const btnW = rect.width;
+            const btnH = rect.height;
+            return {
+                minLeft: PAD,
+                maxLeft: Math.max(PAD, vw - btnW - PAD),
+                minTop: PAD,
+                maxTop: Math.max(PAD, vh - btnH - PAD)
+            };
+        }
+
+        function clampToBounds(left, top) {
+            const b = getSafeBounds();
+            return {
+                left: Math.max(b.minLeft, Math.min(b.maxLeft, left)),
+                top: Math.max(b.minTop, Math.min(b.maxTop, top))
+            };
+        }
+
+        const MIN_MOVE = 80;
+
+        function getRandomPosition() {
+            const b = getSafeBounds();
+            const rangeX = Math.max(0, b.maxLeft - b.minLeft);
+            const rangeY = Math.max(0, b.maxTop - b.minTop);
+            const currentLeft = parseFloat(noBtn.style.left) || b.minLeft;
+            const currentTop = parseFloat(noBtn.style.top) || b.minTop;
+
+            // Get the media container rect to create an exclusion zone
+            const mediaContainer = document.getElementById('mediaContainer');
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnW = btnRect.width;
+            const btnH = btnRect.height;
+            let exclusionZone = null;
+
+            if (mediaContainer) {
+                const mcRect = mediaContainer.getBoundingClientRect();
+                const boundaryRect = noBtnBoundary.getBoundingClientRect();
+                const PAD_EXTRA = 20; // extra padding around the media
+                exclusionZone = {
+                    left: mcRect.left - boundaryRect.left - PAD_EXTRA,
+                    top: mcRect.top - boundaryRect.top - PAD_EXTRA,
+                    right: mcRect.right - boundaryRect.left + PAD_EXTRA,
+                    bottom: mcRect.bottom - boundaryRect.top + PAD_EXTRA
+                };
+            }
+
+            // Check if a button placed at (left, top) would overlap the exclusion zone
+            function overlapsMedia(left, top) {
+                if (!exclusionZone) return false;
+                const btnRight = left + btnW;
+                const btnBottom = top + btnH;
+                return !(btnRight < exclusionZone.left ||
+                         left > exclusionZone.right ||
+                         btnBottom < exclusionZone.top ||
+                         top > exclusionZone.bottom);
+            }
+
+            let left, top;
+            let attempts = 0;
+            do {
+                left = b.minLeft + Math.random() * rangeX;
+                top = b.minTop + Math.random() * rangeY;
+                const dist = Math.hypot(left - currentLeft, top - currentTop);
+                const farEnough = dist >= MIN_MOVE || attempts > 30;
+                const clearOfMedia = !overlapsMedia(left, top);
+                if (farEnough && clearOfMedia) break;
+                attempts++;
+            } while (attempts < 150);
+
+            // If after 150 attempts we still overlap media, force to bottom of viewport
+            if (overlapsMedia(left, top)) {
+                const bottomZone = exclusionZone ? exclusionZone.bottom + 10 : b.maxTop;
+                top = Math.min(bottomZone, b.maxTop);
+                left = b.minLeft + Math.random() * rangeX;
+            }
+
+            return { left, top };
+        }
+
+        function syncSpacerText() {
+            noBtnSpacer.textContent = noBtn.textContent;
+        }
+
+        function positionNoButtonOverSpacer() {
+            syncSpacerText();
+            noBtn.offsetHeight;
+            const r = noBtnSpacer.getBoundingClientRect();
+            const boundaryRect = noBtnBoundary.getBoundingClientRect();
+            const cs = getComputedStyle(noBtnBoundary);
+            const padL = parseFloat(cs.paddingLeft) || 0;
+            const padT = parseFloat(cs.paddingTop) || 0;
+            noBtn.style.left = (r.left - boundaryRect.left - padL) + 'px';
+            noBtn.style.top = (r.top - boundaryRect.top - padT) + 'px';
+            // Sync spacer dimensions to match No button exactly (fixes centering)
+            const btnRect = noBtn.getBoundingClientRect();
+            noBtnSpacer.style.width = btnRect.width + 'px';
+            noBtnSpacer.style.minWidth = btnRect.width + 'px';
+            noBtnSpacer.style.height = btnRect.height + 'px';
+            noBtnSpacer.style.flexShrink = '0';
+            // Reposition after spacer resize (layout may have shifted)
+            requestAnimationFrame(() => {
+                const r2 = noBtnSpacer.getBoundingClientRect();
+                const br = noBtnBoundary.getBoundingClientRect();
+                const cs2 = getComputedStyle(noBtnBoundary);
+                const pl = parseFloat(cs2.paddingLeft) || 0;
+                const pt = parseFloat(cs2.paddingTop) || 0;
+                noBtn.style.left = (r2.left - br.left - pl) + 'px';
+                noBtn.style.top = (r2.top - br.top - pt) + 'px';
+            });
+        }
+
+        function resetNoButton() {
+            noBtn.textContent = 'No';
+            noBtn.style.minWidth = '';
+            noBtnSpacer.style.width = '';
+            noBtnSpacer.style.minWidth = '';
+            noBtnSpacer.style.height = '';
+            syncSpacerText();
+            positionNoButtonOverSpacer();
+        }
+
+        // Show next media on No hover
+        function showNextMedia() {
+            mediaIndex = (mediaIndex + 1) % mediaItems.length;
+            const item = mediaItems[mediaIndex];
+
+            const mediaContainer = document.getElementById('mediaContainer');
+            const largeMedia = ['1.webp', '2.mp4', '6.gif', '9.gif', '12.mp4'];
+            mediaContainer.classList.toggle('media-large', largeMedia.some(f => item.src.includes(f)));
+            mediaContainer.classList.toggle('media-9gif', item.src.includes('9.gif'));
+
+            // Determine target video element (if this item is a video) so we skip pausing it
+            const targetVideoEl = item.type === 'video' ? item.el : null;
+
+            // Pause and hide all videos EXCEPT the one we're about to play
+            const allVideos = [mediaVideo2, mediaVideo3, mediaVideo5, mediaVideo12];
+            allVideos.forEach(v => {
+                if (v !== targetVideoEl) {
+                    v.pause();
+                    v.currentTime = 0;
+                }
+                v.classList.add('hidden');
+            });
+
+            if (item.type === 'image') {
+                defaultImage.classList.add('hidden');
+                mediaImage.src = item.src;
+                mediaImage.classList.remove('hidden');
+                const newAudioSrc = item.audio || 'media/4.mp3';
+                // Only reassign src if it actually changed (avoids reload that kills first play)
+                if (!mp3Audio.src.endsWith(newAudioSrc.replace(/^.*\//, ''))) {
+                    mp3Audio.src = newAudioSrc;
+                }
+                mp3Audio.currentTime = 0;
+                mp3Audio.play().catch(() => {});
+            } else {
+                defaultImage.classList.add('hidden');
+                mediaImage.classList.add('hidden');
+                const videoEl = item.el;
+                videoEl.currentTime = 0;
+                videoEl.classList.remove('hidden');
+                mp3Audio.pause();
+                mp3Audio.currentTime = 0;
+                // Use .catch() with retry to handle browsers that may reject play()
+                videoEl.play().catch(() => {
+                    // Retry after a micro-delay if browser rejected the initial play
+                    setTimeout(() => {
+                        videoEl.currentTime = 0;
+                        videoEl.play().catch(() => {});
+                    }, 50);
+                });
+            }
+        }
+
+        // Show 3.mp4 video (used when "Nice try Diddy!" is shown)
+        function show3mp4() {
+            const mediaContainer = document.getElementById('mediaContainer');
+            mediaContainer.classList.remove('media-large', 'media-9gif');
+            mediaVideo2.pause();
+            mediaVideo2.currentTime = 0;
+            mediaVideo2.classList.add('hidden');
+            mediaVideo5.pause();
+            mediaVideo5.currentTime = 0;
+            mediaVideo5.classList.add('hidden');
+            mediaVideo12.pause();
+            mediaVideo12.currentTime = 0;
+            mediaVideo12.classList.add('hidden');
+            defaultImage.classList.add('hidden');
+            mediaImage.classList.add('hidden');
+            mp3Audio.pause();
+            mp3Audio.currentTime = 0;
+            mediaVideo3.currentTime = 0;
+            mediaVideo3.classList.remove('hidden');
+            mediaVideo3.play().catch(() => {
+                setTimeout(() => {
+                    mediaVideo3.currentTime = 0;
+                    mediaVideo3.play().catch(() => {});
+                }, 50);
+            });
+        }
+
+        // Show 12.mp4 video (used when "i'm gonna cry😭" is shown)
+        function show12mp4() {
+            const mediaContainer = document.getElementById('mediaContainer');
+            mediaContainer.classList.remove('media-large', 'media-9gif');
+            mediaVideo2.pause();
+            mediaVideo2.currentTime = 0;
+            mediaVideo2.classList.add('hidden');
+            mediaVideo3.pause();
+            mediaVideo3.currentTime = 0;
+            mediaVideo3.classList.add('hidden');
+            mediaVideo5.pause();
+            mediaVideo5.currentTime = 0;
+            mediaVideo5.classList.add('hidden');
+            defaultImage.classList.add('hidden');
+            mediaImage.classList.add('hidden');
+            mp3Audio.pause();
+            mp3Audio.currentTime = 0;
+            mediaVideo12.currentTime = 0;
+            mediaVideo12.classList.remove('hidden');
+            mediaVideo12.play().catch(() => {
+                setTimeout(() => {
+                    mediaVideo12.currentTime = 0;
+                    mediaVideo12.play().catch(() => {});
+                }, 50);
+            });
+        }
+
+        function moveNoButton(message) {
+            noClickCount++;
+
+            const text = message ?? funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+            noBtn.textContent = text;
+
+            // Measure true content width (temp remove constraints), then force proper width
+            noBtn.style.setProperty('min-width', 'auto', 'important');
+            noBtn.style.setProperty('max-width', 'none', 'important');
+            noBtn.style.setProperty('width', 'auto', 'important');
+            noBtn.offsetHeight; // force reflow
+            const contentWidth = noBtn.scrollWidth;
+
+            const maxAllowed = Math.min(window.innerWidth * 0.95, 420);
+            const finalWidth = Math.min(contentWidth + 20, maxAllowed);
+
+            // Set width with !important so CSS rules don't override
+            noBtn.style.setProperty('width', finalWidth + 'px', 'important');
+            noBtn.style.setProperty('min-width', finalWidth + 'px', 'important');
+            noBtn.style.setProperty('max-width', finalWidth + 'px', 'important');
+
+            const pos = getRandomPosition();
+            const clamped = clampToBounds(pos.left, pos.top);
+
+            if (noClickCount % 2 === 0) {
+                yesBtn.classList.add('shake');
+                setTimeout(() => yesBtn.classList.remove('shake'), 500);
+            }
+
+            noBtn.style.left = clamped.left + 'px';
+            noBtn.style.top = clamped.top + 'px';
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff2056', '#ec003f', '#ff6b7a', '#ffc0cb', '#ffb6c1'];
+            const shapes = ['♥', '★', '●', '♦'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.fontSize = `${Math.random() * 20 + 10}px`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        // Handle Yes click
+        function handleYesClick() {
+            celebrationAudio.currentTime = 0;
+            celebrationAudio.play().catch(() => {});
+            mp3Audio.pause();
+            mediaVideo2.pause();
+            mediaVideo3.pause();
+            mediaVideo5.pause();
+            mediaVideo12.pause();
+            resetNoButton();
+            currentPage = 'celebration';
+            document.body.classList.add('celebration-mode');
+            startCelebrationHearts();
+            questionPage.classList.add('hidden');
+
+            setTimeout(() => {
+                celebrationPage.classList.remove('hidden');
+                createConfetti();
+            }, 300);
+        }
+
+        // Handle No button interaction
+        function handleNoInteraction(e) {
+            e.preventDefault();
+            let message = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+            if (message === "Nice try Diddy!") {
+                show3mp4();
+                message = "Nice try Diddy!";
+            } else if (message === "i'm gonna cry😭") {
+                show12mp4();
+            } else {
+                showNextMedia();
+                // When 3.mp4 plays from cycle, always show "Nice try Diddy!" text
+                if (mediaItems[mediaIndex].src.includes('3.mp4')) {
+                    message = "Nice try Diddy!";
+                } else if (mediaItems[mediaIndex].src.includes('12.mp4')) {
+                    message = "i'm gonna cry😭";
+                }
+            }
+
+
+            moveNoButton(message);
+        }
+
+        // Open modal
+        function openModal() {
+            modalOverlay.classList.add('active');
+        }
+
+        // Close modal
+        function closeModalHandler() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // Event Listeners
+        yesBtn.addEventListener('click', handleYesClick);
+
+        // Use pointerdown (not hover) - browsers block audio/video until user gesture.
+        // Hover is not valid; press/click is. pointerdown fires for both mouse and touch.
+        noBtn.addEventListener('pointerdown', function(e) {
+            e.preventDefault();
+            handleNoInteraction(e);
+        });
+
+        dateDetailsBtn.addEventListener('click', openModal);
+        closeModal.addEventListener('click', closeModalHandler);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeModalHandler();
+            }
+        });
+
+        // ===== Gift-Opening Romantic Quote on 14.PNG click =====
+        const celebrationGif = document.querySelector('.celebration-gif');
+        const giftOverlay = document.getElementById('giftOverlay');
+        const giftBoxScene = document.getElementById('giftBoxScene');
+        const romanticQuoteCard = document.getElementById('romanticQuoteCard');
+        const quoteText = document.getElementById('quoteText');
+        const giftSparkles = document.getElementById('giftSparkles');
+        const quoteMiniHearts = document.getElementById('quoteMiniHearts');
+
+        const romanticQuote = `I know I cannot love you more than I do right now, and yet I know I will tomorrow.`;
+
+        function createGiftSparkles() {
+            giftSparkles.innerHTML = '';
+            const count = 16;
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'gift-sparkle';
+                const angle = (i / count) * 360;
+                const dist = 60 + Math.random() * 80;
+                const x = Math.cos(angle * Math.PI / 180) * dist;
+                const y = Math.sin(angle * Math.PI / 180) * dist;
+                s.style.left = '50%';
+                s.style.top = '35%';
+                s.style.setProperty('--tx', x + 'px');
+                s.style.setProperty('--ty', y + 'px');
+                s.style.animation = `sparkle-burst 0.9s ${i * 0.04}s ease-out forwards`;
+                s.style.setProperty('animation-name', 'sparkle-burst');
+                // Override keyframe destination via inline
+                s.animate([
+                    { transform: 'translate(0, 0) scale(0)', opacity: 1 },
+                    { transform: `translate(${x}px, ${y}px) scale(1.2)`, opacity: 1, offset: 0.5 },
+                    { transform: `translate(${x*1.3}px, ${y*1.3}px) scale(0)`, opacity: 0 }
+                ], { duration: 900, delay: i * 40, fill: 'forwards', easing: 'ease-out' });
+                giftSparkles.appendChild(s);
+            }
+        }
+
+        function createQuoteMiniHearts() {
+            quoteMiniHearts.innerHTML = '';
+            const hearts = ['💕', '💗', '❤️', '💖', '💓'];
+            for (let i = 0; i < 8; i++) {
+                const h = document.createElement('div');
+                h.className = 'quote-mini-heart';
+                h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                h.style.left = (10 + Math.random() * 80) + '%';
+                h.style.bottom = '0';
+                h.style.animationDelay = (i * 0.4) + 's';
+                h.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+                quoteMiniHearts.appendChild(h);
+            }
+        }
+
+        function typewriterEffect(text, element, speed = 45) {
+            return new Promise(resolve => {
+                element.innerHTML = '';
+                const cursor = document.createElement('span');
+                cursor.className = 'typewriter-cursor';
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.textContent = text.slice(0, i + 1);
+                        element.appendChild(cursor);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        // Remove cursor after finishing
+                        setTimeout(() => cursor.remove(), 1500);
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        function openGiftOverlay() {
+            giftBoxScene.classList.remove('opened');
+            romanticQuoteCard.classList.remove('revealed');
+            quoteText.innerHTML = '';
+            giftOverlay.classList.add('active');
+
+            // Step 1: After a beat, open the gift
+            setTimeout(() => {
+                giftBoxScene.classList.add('opened');
+                createGiftSparkles();
+
+                // Step 2: Fade out box, reveal quote card
+                setTimeout(() => {
+                    giftBoxScene.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    giftBoxScene.style.opacity = '0';
+                    giftBoxScene.style.transform = 'scale(0.6)';
+
+                    romanticQuoteCard.classList.add('revealed');
+                    createQuoteMiniHearts();
+
+                    // Step 3: Typewriter the quote
+                    setTimeout(() => {
+                        typewriterEffect(romanticQuote, quoteText, 50);
+                    }, 600);
+                }, 1000);
+            }, 700);
+        }
+
+        function closeGiftOverlay() {
+            giftOverlay.classList.remove('active');
+            setTimeout(() => {
+                giftBoxScene.style.transition = '';
+                giftBoxScene.style.opacity = '';
+                giftBoxScene.style.transform = '';
+                giftBoxScene.classList.remove('opened');
+                romanticQuoteCard.classList.remove('revealed');
+                quoteText.innerHTML = '';
+                quoteMiniHearts.innerHTML = '';
+                giftSparkles.innerHTML = '';
+            }, 500);
+        }
+
+        celebrationGif.addEventListener('click', openGiftOverlay);
+        giftOverlay.addEventListener('click', function(e) {
+            if (e.target === giftOverlay || romanticQuoteCard.contains(e.target)) {
+                closeGiftOverlay();
+            }
+        });
+
+        // Initialize
+        noBtn.textContent = 'No';
+        syncSpacerText();
+        createHearts();
+        initCursorParallax();
+        preloadMedia();
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                positionNoButtonOverSpacer();
+            });
+        });
+
+        // On resize, reposition or re-clamp button
+        function onResize() {
+            if (currentPage !== 'question') return;
+            if (noClickCount === 0) {
+                positionNoButtonOverSpacer();
+            } else {
+                const left = parseFloat(noBtn.style.left) || 0;
+                const top = parseFloat(noBtn.style.top) || 0;
+                const c = clampToBounds(left, top);
+                if (c.left !== left || c.top !== top) {
+                    noBtn.style.left = c.left + 'px';
+                    noBtn.style.top = c.top + 'px';
+                }
+            }
+        }
+        window.addEventListener('resize', onResize);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', onResize);
+        }
+    </script>
+</body>
+</html>
